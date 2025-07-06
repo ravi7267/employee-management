@@ -57,7 +57,7 @@
                         <form action="{{ route('employees.destroy', $employee) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="button button-delete" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="button" class="button button-delete" onclick="showDeleteModal(this)">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -68,6 +68,17 @@
             @endforelse
         </tbody>
     </table>
+
+    <div id="deleteModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:9999;">
+    <div style="background:#fff; max-width:400px; margin:100px auto; padding:20px; border-radius:5px; position:relative;">
+        <h3>Confirm Delete</h3>
+        <p>Are you sure you want to delete this employee?</p>
+        <div style="text-align:right;">
+            <button id="cancelDelete" style="margin-right:10px;" class="button button-cancel">Cancel</button>
+            <button id="confirmDelete" class="button button-delete">Delete</button>
+        </div>
+    </div>
+</div>
 
     {{ $employees->links() }}
 </div>
@@ -114,6 +125,26 @@ document.getElementById('departmentFilter').addEventListener('change', function 
                 `;
             });
         });
+});
+
+let formToDelete = null;
+
+function showDeleteModal(button) {
+    formToDelete = button.closest('form');
+    document.getElementById('deleteModal').style.display = 'block';
+}
+
+//cancel
+document.getElementById('cancelDelete').addEventListener('click', function () {
+    document.getElementById('deleteModal').style.display = 'none';
+    formToDelete = null;
+});
+
+// confirm
+document.getElementById('confirmDelete').addEventListener('click', function () {
+    if (formToDelete) {
+        formToDelete.submit();
+    }
 });
 </script>
 @endsection

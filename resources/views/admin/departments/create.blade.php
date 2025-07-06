@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Add Department</h1>
-    <form action="{{ route('admin.departments.store') }}" method="POST">
+    <form action="{{ route('departments.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label>Name</label>
@@ -16,7 +16,7 @@
                 <option value="inactive">Inactive</option>
             </select>
         </div>
-        <button class="btn btn-primary">Save</button>
+        <button type="submit" class="button button-save">Save</button>
     </form>
 </div>
 @endsection
